@@ -1,1 +1,1481 @@
-<!DOCTYPE html>\n<html lang="en">\n<head>\n    <meta charset="UTF-8">\n    <meta name="viewport" content="width=device-width, initial-scale=1.0">\n    <title>Game Collection</title>\n    <style>\n        body {\n            font-family: Arial, sans-serif;\n            display: flex;\n            flex-direction: column;\n            align-items: center;\n            justify-content: center;\n            height: 100vh;\n            margin: 0;\n            background-color: #f4f4f4;\n        }\n        .game {\n            border: 1px solid #ddd;\n            margin: 10px;\n            padding: 15px;\n            width: 300px;\n            box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);\n        }\n    </style>\n</head>\n<body>\n    <h1>Welcome to the Game Collection</h1>\n    <div class="game"><h2>Tic Tac Toe</h2><p>Play a classic game of Tic Tac Toe!</p></div>\n    <div class="game"><h2>Sudoku</h2><p>Challenge your mind with Sudoku.</p></div>\n    <div class="game"><h2>Memory Game</h2><p>Test your memory with this fun game!</p></div>\n    <div class="game"><h2>2048</h2><p>Combine tiles to reach 2048!</p></div>\n    <div class="game"><h2>Simon Says</h2><p>Follow the pattern in Simon Says.</p></div>\n    <div class="game"><h2>Color Match</h2><p>Match the colors in this engaging game.</p></div>\n    <div class="game"><h2>Hangman</h2><p>Can you guess the word before it's too late?</p></div>\n    <footer>\n        <p>Developer: Deep Solanki</p>\n        <p>Email: <a href="mailto:deepsolanki9125@gmail.com">deepsolanki9125@gmail.com</a></p>\n    </footer>\n</body>\n</html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mindful Games - 7 Fun Games in One</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-color: #667eea;
+            --secondary-color: #764ba2;
+            --success-color: #48bb78;
+            --danger-color: #f56565;
+            --warning-color: #ed8936;
+            --bg-light: #f7fafc;
+            --text-dark: #2d3748;
+            --text-light: #718096;
+            --border-color: #e2e8f0;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: var(--text-dark);
+            display: flex;
+            flex-direction: column;
+        }
+
+        header {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 20px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        header h1 {
+            color: var(--primary-color);
+            font-size: 2rem;
+            margin-bottom: 5px;
+        }
+
+        header p {
+            color: var(--text-light);
+            font-size: 0.9rem;
+        }
+
+        .main-container {
+            display: flex;
+            flex: 1;
+            gap: 20px;
+            padding: 20px;
+            max-width: 1400px;
+            margin: 0 auto;
+            width: 100%;
+        }
+
+        .sidebar {
+            width: 250px;
+            background: white;
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            height: fit-content;
+            position: sticky;
+            top: 100px;
+        }
+
+        .sidebar h2 {
+            color: var(--primary-color);
+            margin-bottom: 20px;
+            font-size: 1.3rem;
+        }
+
+        .game-nav {
+            list-style: none;
+        }
+
+        .game-nav li {
+            margin-bottom: 10px;
+        }
+
+        .game-nav button {
+            width: 100%;
+            padding: 12px 15px;
+            background: var(--bg-light);
+            border: 2px solid var(--border-color);
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 0.95rem;
+            font-weight: 500;
+            color: var(--text-dark);
+            transition: all 0.3s ease;
+            text-align: left;
+        }
+
+        .game-nav button:hover {
+            background: var(--primary-color);
+            color: white;
+            border-color: var(--primary-color);
+            transform: translateX(5px);
+        }
+
+        .game-nav button.active {
+            background: var(--primary-color);
+            color: white;
+            border-color: var(--primary-color);
+        }
+
+        .game-content {
+            flex: 1;
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            min-height: 600px;
+        }
+
+        .game-container {
+            display: none;
+        }
+
+        .game-container.active {
+            display: block;
+            animation: fadeIn 0.3s ease;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .game-container h2 {
+            color: var(--primary-color);
+            margin-bottom: 20px;
+            font-size: 2rem;
+        }
+
+        .game-info {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .status {
+            font-size: 1.2rem;
+            color: var(--primary-color);
+            font-weight: bold;
+            margin-bottom: 15px;
+            min-height: 30px;
+        }
+
+        .scores {
+            display: flex;
+            justify-content: space-around;
+            margin-bottom: 15px;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .score-item {
+            flex: 1;
+            min-width: 100px;
+            text-align: center;
+            padding: 10px;
+            background: var(--bg-light);
+            border-radius: 8px;
+        }
+
+        .score-item label {
+            display: block;
+            font-size: 0.9rem;
+            color: var(--text-light);
+            margin-bottom: 5px;
+        }
+
+        .score-item span {
+            display: block;
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: var(--primary-color);
+        }
+
+        .game-board {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            margin-bottom: 30px;
+            background: var(--bg-light);
+            padding: 10px;
+            border-radius: 10px;
+        }
+
+        .cell {
+            width: 100%;
+            aspect-ratio: 1;
+            background: white;
+            border: 2px solid var(--primary-color);
+            border-radius: 8px;
+            font-size: 2.5rem;
+            font-weight: bold;
+            cursor: pointer;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: all 0.3s ease;
+            color: var(--text-dark);
+        }
+
+        .cell:hover:not(:disabled) {
+            background: #f8f9ff;
+            transform: scale(0.95);
+        }
+
+        .cell.x {
+            color: var(--primary-color);
+        }
+
+        .cell.o {
+            color: var(--secondary-color);
+        }
+
+        .cell:disabled {
+            cursor: not-allowed;
+        }
+
+        .sudoku-container {
+            max-width: 550px;
+        }
+
+        .sudoku-grid {
+            display: grid;
+            grid-template-columns: repeat(9, 1fr);
+            gap: 0;
+            background: var(--text-dark);
+            padding: 5px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+        }
+
+        .sudoku-cell {
+            width: 50px;
+            height: 50px;
+            background: white;
+            border: 1px solid #ddd;
+            font-size: 1.2rem;
+            font-weight: bold;
+            text-align: center;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .sudoku-cell:nth-child(3n) {
+            border-right: 3px solid var(--text-dark);
+        }
+
+        .sudoku-cell:nth-child(27n) {
+            border-bottom: 3px solid var(--text-dark);
+        }
+
+        .sudoku-cell.filled-by-user {
+            color: var(--primary-color);
+            font-weight: bold;
+        }
+
+        .memory-container {
+            max-width: 600px;
+        }
+
+        .memory-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .memory-card {
+            aspect-ratio: 1;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 2rem;
+            font-weight: bold;
+            color: white;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .memory-card:hover {
+            transform: scale(1.05);
+        }
+
+        .memory-card.flipped {
+            background: white;
+            color: var(--primary-color);
+            border: 2px solid var(--primary-color);
+        }
+
+        .memory-card.matched {
+            background: var(--success-color);
+            cursor: not-allowed;
+            opacity: 0.6;
+        }
+
+        .game-2048-wrapper {
+            max-width: 400px;
+        }
+
+        .grid-2048 {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+            background: #bbada0;
+            padding: 10px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+        }
+
+        .tile {
+            width: 80px;
+            height: 80px;
+            background: #cdc1b4;
+            border-radius: 3px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            font-weight: bold;
+            color: #776e65;
+        }
+
+        .tile-2 { background: #eee4da; color: #776e65; }
+        .tile-4 { background: #ede0c8; color: #776e65; }
+        .tile-8 { background: #f2b179; color: #f9f6f2; }
+        .tile-16 { background: #f59563; color: #f9f6f2; }
+        .tile-32 { background: #f67c5f; color: #f9f6f2; }
+        .tile-64 { background: #f65e3b; color: #f9f6f2; }
+        .tile-128 { background: #edcf72; color: #095f6b; font-size: 1.5rem; }
+        .tile-256 { background: #edcc61; color: #095f6b; font-size: 1.5rem; }
+        .tile-512 { background: #edc850; color: #095f6b; font-size: 1.5rem; }
+        .tile-1024 { background: #edc53f; color: #095f6b; font-size: 1.2rem; }
+        .tile-2048 { background: #edc22e; color: #095f6b; font-size: 1.2rem; }
+
+        .simon-container {
+            max-width: 400px;
+            text-align: center;
+        }
+
+        .simon-board {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .simon-pad {
+            width: 120px;
+            height: 120px;
+            border-radius: 10px;
+            border: none;
+            cursor: pointer;
+            font-weight: bold;
+            color: white;
+            font-size: 1.2rem;
+            transition: all 0.2s ease;
+        }
+
+        .simon-pad.red { background: #ef4444; }
+        .simon-pad.blue { background: #3b82f6; }
+        .simon-pad.green { background: #10b981; }
+        .simon-pad.yellow { background: #fbbf24; }
+
+        .simon-pad:active, .simon-pad.active {
+            transform: scale(0.95);
+            filter: brightness(0.8);
+        }
+
+        .color-match-container {
+            max-width: 400px;
+            text-align: center;
+        }
+
+        .target-color {
+            width: 150px;
+            height: 150px;
+            margin: 20px auto;
+            border-radius: 10px;
+            border: 3px solid var(--text-dark);
+            transition: all 0.3s ease;
+        }
+
+        .color-options {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .color-btn {
+            width: 80px;
+            height: 80px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: transform 0.2s ease;
+            margin: 0 auto;
+        }
+
+        .color-btn:hover {
+            transform: scale(1.1);
+        }
+
+        .hangman-container {
+            max-width: 500px;
+        }
+
+        .hangman-drawing {
+            font-size: 3rem;
+            text-align: center;
+            margin-bottom: 20px;
+            min-height: 100px;
+        }
+
+        .word-display {
+            font-size: 2rem;
+            letter-spacing: 15px;
+            text-align: center;
+            margin-bottom: 20px;
+            font-weight: bold;
+            color: var(--primary-color);
+        }
+
+        .alphabet-buttons {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 8px;
+            margin-bottom: 20px;
+        }
+
+        .letter-btn {
+            padding: 10px;
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.2s ease;
+        }
+
+        .letter-btn:hover:not(:disabled) {
+            background: var(--secondary-color);
+            transform: scale(1.1);
+        }
+
+        .letter-btn:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            opacity: 0.5;
+        }
+
+        .button-group {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        button {
+            padding: 12px 20px;
+            font-size: 1rem;
+            font-weight: bold;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .reset-btn {
+            background: var(--primary-color);
+            color: white;
+        }
+
+        .reset-btn:hover {
+            background: var(--secondary-color);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        .reset-scores-btn {
+            background: var(--danger-color);
+            color: white;
+        }
+
+        .reset-scores-btn:hover {
+            background: #dc2626;
+            transform: translateY(-2px);
+        }
+
+        .game-over-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            justify-content: center;
+            align-items: center;
+            z-index: 2000;
+        }
+
+        .game-over-modal.show {
+            display: flex;
+        }
+
+        .modal-content {
+            background: white;
+            padding: 40px;
+            border-radius: 15px;
+            text-align: center;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            max-width: 400px;
+            width: 90%;
+            animation: slideDown 0.3s ease;
+        }
+
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .modal-content h2 {
+            color: var(--primary-color);
+            margin-bottom: 15px;
+            font-size: 2rem;
+        }
+
+        .modal-content p {
+            color: var(--text-light);
+            margin-bottom: 20px;
+            font-size: 1.1rem;
+        }
+
+        .modal-btn {
+            background: var(--primary-color);
+            color: white;
+            padding: 12px 30px;
+            font-size: 1rem;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .modal-btn:hover {
+            background: var(--secondary-color);
+            transform: translateY(-2px);
+        }
+
+        footer {
+            background: rgba(0, 0, 0, 0.7);
+            color: white;
+            text-align: center;
+            padding: 30px 20px;
+            margin-top: auto;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .footer-content h3 {
+            color: var(--primary-color);
+            margin-bottom: 10px;
+            font-size: 1.3rem;
+        }
+
+        .developer-info {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            flex-wrap: wrap;
+            margin-bottom: 15px;
+        }
+
+        .developer-info p {
+            font-size: 1rem;
+        }
+
+        .developer-info strong {
+            color: var(--primary-color);
+        }
+
+        .developer-info a {
+            color: var(--primary-color);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .developer-info a:hover {
+            color: #85a5ff;
+            text-decoration: underline;
+        }
+
+        .copyright {
+            border-top: 1px solid rgba(255, 255, 255, 0.2);
+            padding-top: 15px;
+            margin-top: 15px;
+            font-size: 0.9rem;
+            color: rgba(255, 255, 255, 0.8);
+        }
+
+        @media (max-width: 1024px) {
+            .main-container {
+                flex-direction: column;
+            }
+
+            .sidebar {
+                width: 100%;
+                position: static;
+            }
+
+            .game-nav {
+                display: grid;
+                grid-template-columns: repeat(2, 1fr);
+                gap: 10px;
+            }
+
+            .game-nav button {
+                width: 100%;
+            }
+        }
+
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 1.5rem;
+            }
+
+            .game-content {
+                padding: 20px;
+                min-height: auto;
+            }
+
+            .game-nav {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .scores {
+                flex-direction: column;
+                gap: 10px;
+            }
+
+            .score-item {
+                flex: 1;
+            }
+
+            .memory-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+
+            .sudoku-grid {
+                transform: scale(0.8);
+                transform-origin: top left;
+            }
+
+            .developer-info {
+                flex-direction: column;
+                gap: 10px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            header h1 {
+                font-size: 1.2rem;
+            }
+
+            header p {
+                font-size: 0.8rem;
+            }
+
+            .main-container {
+                padding: 10px;
+                gap: 10px;
+            }
+
+            .sidebar {
+                padding: 15px;
+            }
+
+            .game-content {
+                padding: 15px;
+            }
+
+            .game-nav {
+                grid-template-columns: 1fr;
+            }
+
+            .game-nav button {
+                font-size: 0.85rem;
+                padding: 10px;
+            }
+
+            .memory-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 10px;
+            }
+
+            .memory-card {
+                font-size: 1.5rem;
+            }
+
+            .simon-pad {
+                width: 80px;
+                height: 80px;
+                font-size: 0.9rem;
+            }
+
+            .simon-board {
+                gap: 8px;
+            }
+
+            .alphabet-buttons {
+                grid-template-columns: repeat(5, 1fr);
+                gap: 5px;
+            }
+
+            .letter-btn {
+                padding: 8px;
+                font-size: 0.8rem;
+            }
+
+            .button-group {
+                gap: 10px;
+            }
+
+            button {
+                padding: 10px 15px;
+                font-size: 0.9rem;
+            }
+
+            footer {
+                padding: 20px 10px;
+            }
+
+            .developer-info p {
+                font-size: 0.9rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>🎮 Mindful Games</h1>
+        <p>Challenge your mind with 7 amazing games - all in one place!</p>
+    </header>
+
+    <div class="main-container">
+        <aside class="sidebar">
+            <h2>Select Game</h2>
+            <ul class="game-nav">
+                <li><button class="game-btn active" data-game="tictactoe">🎯 Tic Tac Toe</button></li>
+                <li><button class="game-btn" data-game="sudoku">🔢 Sudoku</button></li>
+                <li><button class="game-btn" data-game="memory">🧠 Memory Game</button></li>
+                <li><button class="game-btn" data-game="2048">2️⃣ 2048</button></li>
+                <li><button class="game-btn" data-game="simon">🔴 Simon Says</button></li>
+                <li><button class="game-btn" data-game="colormatch">🎨 Color Match</button></li>
+                <li><button class="game-btn" data-game="hangman">🎪 Hangman</button></li>
+            </ul>
+        </aside>
+
+        <section class="game-content">
+            <!-- Tic Tac Toe -->
+            <div id="tictactoe" class="game-container active">
+                <h2>🎯 Tic Tac Toe</h2>
+                <div class="tic-tac-toe-wrapper">
+                    <div class="game-info">
+                        <div class="status" id="ttt-status">Player X's Turn</div>
+                        <div class="scores">
+                            <div class="score-item">
+                                <label>Player X</label>
+                                <span id="ttt-scoreX">0</span>
+                            </div>
+                            <div class="score-item">
+                                <label>Draws</label>
+                                <span id="ttt-scoreDraws">0</span>
+                            </div>
+                            <div class="score-item">
+                                <label>Player O</label>
+                                <span id="ttt-scoreO">0</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="game-board" id="ttt-gameBoard">
+                        <button class="cell" data-index="0"></button>
+                        <button class="cell" data-index="1"></button>
+                        <button class="cell" data-index="2"></button>
+                        <button class="cell" data-index="3"></button>
+                        <button class="cell" data-index="4"></button>
+                        <button class="cell" data-index="5"></button>
+                        <button class="cell" data-index="6"></button>
+                        <button class="cell" data-index="7"></button>
+                        <button class="cell" data-index="8"></button>
+                    </div>
+                    <div class="button-group">
+                        <button class="reset-btn" id="ttt-resetBtn">New Game</button>
+                        <button class="reset-scores-btn" id="ttt-resetScoresBtn">Reset Scores</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sudoku -->
+            <div id="sudoku" class="game-container">
+                <h2>🔢 Sudoku</h2>
+                <div class="sudoku-container">
+                    <div class="sudoku-grid" id="sudoku-grid"></div>
+                    <div class="button-group">
+                        <button class="reset-btn" id="sudoku-resetBtn">New Game</button>
+                        <button class="reset-scores-btn" id="sudoku-hintBtn">Get Hint</button>
+                    </div>
+                    <div class="game-info">
+                        <div class="status" id="sudoku-status">Solve the puzzle!</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Memory Game -->
+            <div id="memory" class="game-container">
+                <h2>🧠 Memory Game</h2>
+                <div class="memory-container">
+                    <div class="game-info">
+                        <div class="status" id="memory-status">Match all pairs!</div>
+                        <div class="scores">
+                            <div class="score-item">
+                                <label>Moves</label>
+                                <span id="memory-moves">0</span>
+                            </div>
+                            <div class="score-item">
+                                <label>Matches</label>
+                                <span id="memory-matches">0/8</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="memory-grid" id="memory-grid"></div>
+                    <div class="button-group">
+                        <button class="reset-btn" id="memory-resetBtn">New Game</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 2048 Game -->
+            <div id="2048" class="game-container">
+                <h2>2️⃣ 2048</h2>
+                <div class="game-2048-wrapper">
+                    <div class="game-info">
+                        <div class="status" id="game2048-status">Score: 0</div>
+                    </div>
+                    <div class="grid-2048" id="grid-2048"></div>
+                    <div class="button-group">
+                        <button class="reset-btn" id="game2048-resetBtn">New Game</button>
+                    </div>
+                    <p style="color: var(--text-light); margin-top: 20px; text-align: center;">Use arrow keys to play (← → ↑ ↓)</p>
+                </div>
+            </div>
+
+            <!-- Simon Says -->
+            <div id="simon" class="game-container">
+                <h2>🔴 Simon Says</h2>
+                <div class="simon-container">
+                    <div class="game-info">
+                        <div class="status" id="simon-status">Press Start!</div>
+                    </div>
+                    <div class="simon-board">
+                        <button class="simon-pad red" data-color="red"></button>
+                        <button class="simon-pad blue" data-color="blue"></button>
+                        <button class="simon-pad green" data-color="green"></button>
+                        <button class="simon-pad yellow" data-color="yellow"></button>
+                    </div>
+                    <div class="button-group" style="justify-content: center;">
+                        <button class="reset-btn" id="simon-startBtn">Start Game</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Color Match -->
+            <div id="colormatch" class="game-container">
+                <h2>🎨 Color Match</h2>
+                <div class="color-match-container">
+                    <div class="game-info">
+                        <div class="status" id="colormatch-status">Match the color!</div>
+                        <div class="scores">
+                            <div class="score-item">
+                                <label>Score</label>
+                                <span id="colormatch-score">0</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="target-color" id="target-color"></div>
+                    <div class="color-options" id="color-options"></div>
+                    <div class="button-group" style="justify-content: center;">
+                        <button class="reset-btn" id="colormatch-resetBtn">New Game</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Hangman -->
+            <div id="hangman" class="game-container">
+                <h2>🎪 Hangman</h2>
+                <div class="hangman-container">
+                    <div class="hangman-drawing" id="hangman-drawing">🙂</div>
+                    <div class="word-display" id="word-display"></div>
+                    <div class="game-info">
+                        <div class="status" id="hangman-status">Guess the word!</div>
+                    </div>
+                    <div class="alphabet-buttons" id="alphabet-buttons"></div>
+                    <div class="button-group" style="justify-content: center;">
+                        <button class="reset-btn" id="hangman-resetBtn">New Game</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Modal -->
+    <div class="game-over-modal" id="gameOverModal">
+        <div class="modal-content">
+            <h2 id="modalTitle">Game Over!</h2>
+            <p id="modalMessage">Great job!</p>
+            <button class="modal-btn" onclick="closeModal()">Close</button>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <h3>🎮 Mindful Games</h3>
+            <div class="developer-info">
+                <p><strong>Developer:</strong> Deep Solanki</p>
+                <p><strong>Email:</strong> <a href="mailto:deepsolanki9125@gmail.com">deepsolanki9125@gmail.com</a></p>
+            </div>
+            <div class="copyright">
+                <p>&copy; 2026 Mindful Games. All rights reserved. | Created by dastanrajput32-jpg</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        let currentGame = 'tictactoe';
+
+        // Game Navigation
+        document.querySelectorAll('.game-btn').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                document.querySelectorAll('.game-btn').forEach(b => b.classList.remove('active'));
+                e.target.classList.add('active');
+                currentGame = e.target.dataset.game;
+                document.querySelectorAll('.game-container').forEach(c => c.classList.remove('active'));
+                document.getElementById(currentGame).classList.add('active');
+            });
+        });
+
+        function showModal(message) {
+            document.getElementById('modalTitle').textContent = 'Game Result!';
+            document.getElementById('modalMessage').textContent = message;
+            document.getElementById('gameOverModal').classList.add('show');
+        }
+
+        function closeModal() {
+            document.getElementById('gameOverModal').classList.remove('show');
+        }
+
+        // ==================== TIC TAC TOE ====================
+        let tttBoard = ['', '', '', '', '', '', '', '', ''];
+        let tttCurrentPlayer = 'X';
+        let tttGameActive = true;
+        let tttScoreX = 0;
+        let tttScoreO = 0;
+        let tttScoreDraws = 0;
+
+        const tttWinningCombinations = [
+            [0, 1, 2], [3, 4, 5], [6, 7, 8],
+            [0, 3, 6], [1, 4, 7], [2, 5, 8],
+            [0, 4, 8], [2, 4, 6]
+        ];
+
+        function tttLoadScores() {
+            const x = localStorage.getItem('tttScoreX');
+            const o = localStorage.getItem('tttScoreO');
+            const d = localStorage.getItem('tttScoreDraws');
+            if (x) tttScoreX = parseInt(x);
+            if (o) tttScoreO = parseInt(o);
+            if (d) tttScoreDraws = parseInt(d);
+            tttUpdateScoresDisplay();
+        }
+
+        function tttSaveScores() {
+            localStorage.setItem('tttScoreX', tttScoreX);
+            localStorage.setItem('tttScoreO', tttScoreO);
+            localStorage.setItem('tttScoreDraws', tttScoreDraws);
+        }
+
+        function tttUpdateScoresDisplay() {
+            document.getElementById('ttt-scoreX').textContent = tttScoreX;
+            document.getElementById('ttt-scoreO').textContent = tttScoreO;
+            document.getElementById('ttt-scoreDraws').textContent = tttScoreDraws;
+        }
+
+        function tttCheckWinner() {
+            for (let [a, b, c] of tttWinningCombinations) {
+                if (tttBoard[a] && tttBoard[a] === tttBoard[b] && tttBoard[a] === tttBoard[c]) {
+                    return tttBoard[a];
+                }
+            }
+            return null;
+        }
+
+        function tttUpdateStatus() {
+            const winner = tttCheckWinner();
+            if (winner) {
+                document.getElementById('ttt-status').textContent = `Player ${winner} Wins!`;
+                return true;
+            }
+            if (tttBoard.every(cell => cell !== '')) {
+                document.getElementById('ttt-status').textContent = "It's a Draw!";
+                return true;
+            }
+            document.getElementById('ttt-status').textContent = `Player ${tttCurrentPlayer}'s Turn`;
+            return false;
+        }
+
+        function tttHandleCellClick(e) {
+            const cell = e.target;
+            const index = cell.dataset.index;
+            if (tttBoard[index] !== '' || !tttGameActive) return;
+
+            tttBoard[index] = tttCurrentPlayer;
+            cell.textContent = tttCurrentPlayer;
+            cell.classList.add(tttCurrentPlayer.toLowerCase());
+            cell.disabled = true;
+
+            const isGameOver = tttUpdateStatus();
+            if (isGameOver) {
+                tttGameActive = false;
+                const winner = tttCheckWinner();
+                if (winner === 'X') tttScoreX++;
+                else if (winner === 'O') tttScoreO++;
+                else tttScoreDraws++;
+                tttSaveScores();
+                tttUpdateScoresDisplay();
+                showModal(`${winner ? `Player ${winner} Wins! 🎉` : "It's a Draw! 🤝"}`);
+            } else {
+                tttCurrentPlayer = tttCurrentPlayer === 'X' ? 'O' : 'X';
+            }
+        }
+
+        function tttResetGame() {
+            tttBoard = ['', '', '', '', '', '', '', '', ''];
+            tttCurrentPlayer = 'X';
+            tttGameActive = true;
+            document.getElementById('ttt-status').textContent = "Player X's Turn";
+            document.querySelectorAll('#ttt-gameBoard .cell').forEach(cell => {
+                cell.textContent = '';
+                cell.classList.remove('x', 'o');
+                cell.disabled = false;
+            });
+        }
+
+        function tttResetAllScores() {
+            if (confirm('Reset all scores?')) {
+                tttScoreX = tttScoreO = tttScoreDraws = 0;
+                tttSaveScores();
+                tttUpdateScoresDisplay();
+                tttResetGame();
+            }
+        }
+
+        document.getElementById('ttt-gameBoard').addEventListener('click', tttHandleCellClick);
+        document.getElementById('ttt-resetBtn').addEventListener('click', tttResetGame);
+        document.getElementById('ttt-resetScoresBtn').addEventListener('click', tttResetAllScores);
+        tttLoadScores();
+
+        // ==================== SUDOKU ====================
+        let sudokuBoard = [];
+        let sudokuSolution = [];
+
+        function generateSudoku() {
+            sudokuBoard = Array(81).fill(0);
+            sudokuSolution = Array(81).fill(0);
+            
+            function isValid(num, pos) {
+                const row = Math.floor(pos / 9);
+                const col = pos % 9;
+                const boxRow = Math.floor(row / 3) * 3;
+                const boxCol = Math.floor(col / 3) * 3;
+
+                for (let i = 0; i < 9; i++) {
+                    if (sudokuBoard[row * 9 + i] === num) return false;
+                    if (sudokuBoard[i * 9 + col] === num) return false;
+                    if (sudokuBoard[(boxRow + Math.floor(i / 3)) * 9 + (boxCol + (i % 3))] === num) return false;
+                }
+                return true;
+            }
+
+            function fill(pos) {
+                if (pos === 81) return true;
+                const nums = [1, 2, 3, 4, 5, 6, 7, 8, 9].sort(() => Math.random() - 0.5);
+                for (let num of nums) {
+                    if (isValid(num, pos)) {
+                        sudokuBoard[pos] = num;
+                        if (fill(pos + 1)) return true;
+                        sudokuBoard[pos] = 0;
+                    }
+                }
+                return false;
+            }
+
+            fill(0);
+            sudokuSolution = [...sudokuBoard];
+
+            for (let i = 0; i < 40; i++) {
+                const pos = Math.floor(Math.random() * 81);
+                sudokuBoard[pos] = 0;
+            }
+        }
+
+        function initSudoku() {
+            generateSudoku();
+            const grid = document.getElementById('sudoku-grid');
+            grid.innerHTML = '';
+            
+            for (let i = 0; i < 81; i++) {
+                const cell = document.createElement('input');
+                cell.type = 'number';
+                cell.className = 'sudoku-cell';
+                cell.min = 1;
+                cell.max = 9;
+                if (sudokuBoard[i] !== 0) {
+                    cell.value = sudokuBoard[i];
+                    cell.disabled = true;
+                } else {
+                    cell.classList.add('filled-by-user');
+                }
+                grid.appendChild(cell);
+            }
+        }
+
+        document.getElementById('sudoku-resetBtn').addEventListener('click', initSudoku);
+        document.getElementById('sudoku-hintBtn').addEventListener('click', () => {
+            const cells = document.querySelectorAll('#sudoku-grid .sudoku-cell');
+            for (let i = 0; i < 81; i++) {
+                if (cells[i].value === '' && sudokuBoard[i] === 0) {
+                    cells[i].value = sudokuSolution[i];
+                    break;
+                }
+            }
+        });
+
+        initSudoku();
+
+        // ==================== MEMORY GAME ====================
+        let memoryCards = [];
+        let memoryFlipped = [];
+        let memoryMatched = [];
+        let memoryMoves = 0;
+
+        function initMemory() {
+            const emojis = ['🍎', '🍌', '🍇', '🍓', '🍊', '🍋', '🍌', '🍓'];
+            memoryCards = [...emojis, ...emojis].sort(() => Math.random() - 0.5);
+            memoryFlipped = [];
+            memoryMatched = [];
+            memoryMoves = 0;
+            
+            const grid = document.getElementById('memory-grid');
+            grid.innerHTML = '';
+            
+            memoryCards.forEach((emoji, idx) => {
+                const card = document.createElement('button');
+                card.className = 'memory-card';
+                card.textContent = '?';
+                card.addEventListener('click', () => memoryFlipCard(idx, card));
+                grid.appendChild(card);
+            });
+            
+            document.getElementById('memory-moves').textContent = memoryMoves;
+            document.getElementById('memory-matches').textContent = '0/8';
+        }
+
+        function memoryFlipCard(idx, card) {
+            if (memoryFlipped.length < 2 && !memoryFlipped.includes(idx) && !memoryMatched.includes(idx)) {
+                card.textContent = memoryCards[idx];
+                card.classList.add('flipped');
+                memoryFlipped.push(idx);
+
+                if (memoryFlipped.length === 2) {
+                    memoryMoves++;
+                    document.getElementById('memory-moves').textContent = memoryMoves;
+
+                    if (memoryCards[memoryFlipped[0]] === memoryCards[memoryFlipped[1]]) {
+                        memoryMatched.push(memoryFlipped[0], memoryFlipped[1]);
+                        document.querySelectorAll('#memory-grid .memory-card')[memoryFlipped[0]].classList.add('matched');
+                        document.querySelectorAll('#memory-grid .memory-card')[memoryFlipped[1]].classList.add('matched');
+                        memoryFlipped = [];
+                        document.getElementById('memory-matches').textContent = `${memoryMatched.length / 2}/8`;
+
+                        if (memoryMatched.length === 16) {
+                            showModal('🎉 You Won! All pairs matched!');
+                        }
+                    } else {
+                        setTimeout(() => {
+                            document.querySelectorAll('#memory-grid .memory-card').forEach((c, i) => {
+                                if (!memoryMatched.includes(i)) {
+                                    c.textContent = '?';
+                                    c.classList.remove('flipped');
+                                }
+                            });
+                            memoryFlipped = [];
+                        }, 1000);
+                    }
+                }
+            }
+        }
+
+        document.getElementById('memory-resetBtn').addEventListener('click', initMemory);
+        initMemory();
+
+        // ==================== 2048 GAME ====================
+        let board2048 = [];
+        let score2048 = 0;
+
+        function initGame2048() {
+            board2048 = Array(16).fill(0);
+            score2048 = 0;
+            addNewTile2048();
+            addNewTile2048();
+            draw2048Board();
+        }
+
+        function addNewTile2048() {
+            const empty = board2048.map((v, i) => v === 0 ? i : null).filter(v => v !== null);
+            if (empty.length > 0) {
+                const pos = empty[Math.floor(Math.random() * empty.length)];
+                board2048[pos] = Math.random() < 0.9 ? 2 : 4;
+            }
+        }
+
+        function draw2048Board() {
+            const grid = document.getElementById('grid-2048');
+            grid.innerHTML = '';
+            board2048.forEach(val => {
+                const tile = document.createElement('div');
+                tile.className = `tile ${val ? 'tile-' + val : ''}`;
+                tile.textContent = val || '';
+                grid.appendChild(tile);
+            });
+            document.getElementById('game2048-status').textContent = `Score: ${score2048}`;
+        }
+
+        function move2048(direction) {
+            let moved = false;
+            let newBoard = [...board2048];
+
+            function slideAndCombine(arr) {
+                arr = arr.filter(v => v !== 0);
+                for (let i = 0; i < arr.length - 1; i++) {
+                    if (arr[i] === arr[i + 1]) {
+                        arr[i] *= 2;
+                        score2048 += arr[i];
+                        arr.splice(i + 1, 1);
+                    }
+                }
+                while (arr.length < 4) arr.push(0);
+                return arr;
+            }
+
+            if (direction === 'left' || direction === 'right') {
+                for (let i = 0; i < 4; i++) {
+                    const row = newBoard.slice(i * 4, (i + 1) * 4);
+                    const newRow = direction === 'left' ? slideAndCombine([...row]) : slideAndCombine([...row].reverse()).reverse();
+                    if (JSON.stringify(row) !== JSON.stringify(newRow)) moved = true;
+                    newBoard.splice(i * 4, 4, ...newRow);
+                }
+            } else {
+                for (let j = 0; j < 4; j++) {
+                    const col = [newBoard[j], newBoard[j + 4], newBoard[j + 8], newBoard[j + 12]];
+                    const newCol = direction === 'up' ? slideAndCombine([...col]) : slideAndCombine([...col].reverse()).reverse();
+                    if (JSON.stringify(col) !== JSON.stringify(newCol)) moved = true;
+                    newBoard[j] = newCol[0];
+                    newBoard[j + 4] = newCol[1];
+                    newBoard[j + 8] = newCol[2];
+                    newBoard[j + 12] = newCol[3];
+                }
+            }
+
+            if (moved) {
+                board2048 = newBoard;
+                addNewTile2048();
+                draw2048Board();
+                if (board2048.includes(2048)) showModal('🎉 You reached 2048!');
+            }
+        }
+
+        document.addEventListener('keydown', (e) => {
+            if (currentGame === '2048') {
+                if (e.key === 'ArrowLeft') move2048('left');
+                if (e.key === 'ArrowRight') move2048('right');
+                if (e.key === 'ArrowUp') move2048('up');
+                if (e.key === 'ArrowDown') move2048('down');
+            }
+        });
+
+        document.getElementById('game2048-resetBtn').addEventListener('click', initGame2048);
+        initGame2048();
+
+        // ==================== SIMON SAYS ====================
+        let simonSequence = [];
+        let simonPlayerSequence = [];
+        let simonGameActive = false;
+        let simonLevel = 1;
+
+        function playSimonSequence() {
+            simonPlayerSequence = [];
+            simonSequence.push(['red', 'blue', 'green', 'yellow'][Math.floor(Math.random() * 4)]);
+            document.getElementById('simon-status').textContent = `Level: ${simonLevel}`;
+
+            simonSequence.forEach((color, idx) => {
+                setTimeout(() => {
+                    const btn = document.querySelector(`[data-color="${color}"]`);
+                    btn.classList.add('active');
+                    setTimeout(() => btn.classList.remove('active'), 300);
+                }, (idx + 1) * 600);
+            });
+
+            simonGameActive = true;
+        }
+
+        document.querySelectorAll('.simon-pad').forEach(pad => {
+            pad.addEventListener('click', (e) => {
+                if (!simonGameActive || simonSequence.length === 0) return;
+                const color = e.target.dataset.color;
+                simonPlayerSequence.push(color);
+                e.target.classList.add('active');
+                setTimeout(() => e.target.classList.remove('active'), 300);
+
+                if (simonPlayerSequence[simonPlayerSequence.length - 1] !== simonSequence[simonPlayerSequence.length - 1]) {
+                    showModal(`Game Over! Level: ${simonLevel}`);
+                    simonGameActive = false;
+                    return;
+                }
+
+                if (simonPlayerSequence.length === simonSequence.length) {
+                    simonGameActive = false;
+                    simonLevel++;
+                    setTimeout(playSimonSequence, 1000);
+                }
+            });
+        });
+
+        document.getElementById('simon-startBtn').addEventListener('click', playSimonSequence);
+
+        // ==================== COLOR MATCH ====================
+        let colorMatchTarget = '';
+        let colorMatchScore = 0;
+
+        function initColorMatch() {
+            colorMatchScore = 0;
+            generateColorMatch();
+            document.getElementById('colormatch-score').textContent = colorMatchScore;
+        }
+
+        function generateColorMatch() {
+            const colors = ['#FF6B6B', '#4ECDC4', '#45B7D1', '#FFA07A', '#98D8C8', '#F7DC6F'];
+            colorMatchTarget = colors[Math.floor(Math.random() * colors.length)];
+            document.getElementById('target-color').style.background = colorMatchTarget;
+
+            const options = document.getElementById('color-options');
+            options.innerHTML = '';
+            const shuffled = colors.sort(() => Math.random() - 0.5);
+            shuffled.forEach(color => {
+                const btn = document.createElement('button');
+                btn.className = 'color-btn';
+                btn.style.background = color;
+                btn.addEventListener('click', () => {
+                    if (color === colorMatchTarget) {
+                        colorMatchScore++;
+                        document.getElementById('colormatch-score').textContent = colorMatchScore;
+                        generateColorMatch();
+                    } else {
+                        showModal('Wrong color! Try again.');
+                        initColorMatch();
+                    }
+                });
+                options.appendChild(btn);
+            });
+        }
+
+        document.getElementById('colormatch-resetBtn').addEventListener('click', initColorMatch);
+        initColorMatch();
+
+        // ==================== HANGMAN ====================
+        const hangmanWords = ['JAVASCRIPT', 'PROGRAMMING', 'PUZZLE', 'GAME', 'CHALLENGE', 'DEVELOPER', 'COMPUTER', 'BROWSER'];
+        const hangmanStages = ['🙂', '😐', '😕', '😟', '😠', '😵', '💀'];
+        let hangmanWord = '';
+        let hangmanGuessed = [];
+        let hangmanWrong = 0;
+
+        function initHangman() {
+            hangmanWord = hangmanWords[Math.floor(Math.random() * hangmanWords.length)];
+            hangmanGuessed = [];
+            hangmanWrong = 0;
+            drawHangman();
+            createAlphabetButtons();
+        }
+
+        function drawHangman() {
+            document.getElementById('hangman-drawing').textContent = hangmanStages[hangmanWrong];
+            const display = hangmanWord.split('').map(letter => hangmanGuessed.includes(letter) ? letter : '_').join(' ');
+            document.getElementById('word-display').textContent = display;
+            
+            if (!display.includes('_')) {
+                showModal('🎉 You Won! You guessed: ' + hangmanWord);
+                initHangman();
+            }
+            if (hangmanWrong >= hangmanStages.length - 1) {
+                showModal('Game Over! The word was: ' + hangmanWord);
+                initHangman();
+            }
+        }
+
+        function createAlphabetButtons() {
+            const container = document.getElementById('alphabet-buttons');
+            container.innerHTML = '';
+            for (let i = 65; i < 91; i++) {
+                const letter = String.fromCharCode(i);
+                const btn = document.createElement('button');
+                btn.className = 'letter-btn';
+                btn.textContent = letter;
+                btn.addEventListener('click', () => guessHangmanLetter(letter, btn));
+                container.appendChild(btn);
+            }
+        }
+
+        function guessHangmanLetter(letter, btn) {
+            if (hangmanGuessed.includes(letter)) return;
+            hangmanGuessed.push(letter);
+            btn.disabled = true;
+
+            if (!hangmanWord.includes(letter)) {
+                hangmanWrong++;
+            }
+
+            drawHangman();
+        }
+
+        document.getElementById('hangman-resetBtn').addEventListener('click', initHangman);
+        initHangman();
+    </script>
+</body>
+</html>
